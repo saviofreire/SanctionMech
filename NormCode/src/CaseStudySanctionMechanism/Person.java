@@ -1,0 +1,21 @@
+package CaseStudySanctionMechanism;
+
+import jamder.Environment;
+import jamder.agents.ReflexAgent;
+import jamder.roles.AgentRole;
+
+public class Person extends ReflexAgent{
+	
+	private static final long serialVersionUID = 1L;
+	
+	protected Person(String name, Environment environment, AgentRole agentRole) {
+		super(name, environment, agentRole);
+	}
+
+	@Override
+	public void addAgentRole(String name, AgentRole role) {
+		super.addAgentRole(name, role);
+		role.initialize();
+	}
+	
+}

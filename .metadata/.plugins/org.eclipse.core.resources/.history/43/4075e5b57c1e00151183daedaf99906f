@@ -1,0 +1,10 @@
+package jamder;
+
+public enum Operador {
+	SEQUENCIA(0);
+
+
+
+
+	
+}

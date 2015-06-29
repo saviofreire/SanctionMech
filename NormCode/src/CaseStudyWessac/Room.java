@@ -1,0 +1,33 @@
+package CaseStudyWessac;
+
+public class Room {
+	
+	private String name;
+	private Boolean isDirty;
+	private Room next;
+	
+	public Room(String name, Boolean isDirty){
+		this.name=name;
+		this.isDirty=isDirty;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public Boolean isDirty() {
+		return isDirty;
+	}
+	public void setDirty(Boolean isDirty) {
+		this.isDirty =isDirty;
+	}
+	public void setNext(Room next){
+		this.next=next;
+	}
+	public Room getNext() {
+		return this.next;
+	}	
+		
+}
+

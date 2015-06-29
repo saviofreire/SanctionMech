@@ -1,0 +1,14 @@
+package jamder;
+
+public enum Operador {
+	SEQUENCIA(0), PARALELO(1), ESCOLHA(2);
+	
+
+	public int valorCarta;
+	Operador(int valor) {
+		valorCarta = valor;
+	}
+
+
+	
+}

@@ -1,0 +1,26 @@
+package sm;
+
+import jamder.Actions;
+
+public class No {
+
+	
+	boolean generico = true;	//Se for um no generico (= false)
+	
+	No pai = null;											
+    No esquerda = null;  
+    No direita = null;  
+    int valor;
+    Actions ac;
+
+    public No(int valor) {
+        this.valor = valor;
+        this.generico = true;
+    }
+    
+    public No() {
+    	this.valor = -1;
+        this.generico = false;  
+    }
+    
+}

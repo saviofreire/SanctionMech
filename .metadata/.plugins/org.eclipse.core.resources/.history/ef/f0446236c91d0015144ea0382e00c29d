@@ -1,0 +1,5 @@
+package CaseStudySanctionMechanism.actions;
+
+public class WritePaper extends Action{
+
+}

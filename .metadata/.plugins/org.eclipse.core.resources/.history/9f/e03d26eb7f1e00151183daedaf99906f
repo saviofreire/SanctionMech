@@ -1,0 +1,11 @@
+package sm;
+
+public enum Operador {
+	SEQUENCIA("(SEQ)"), PARALELO("(PARAL)"), ESCOLHA("(ESC)");
+	
+	public String valor;
+	Operador(String valor) {
+		this.valor = valor;
+	}
+
+}

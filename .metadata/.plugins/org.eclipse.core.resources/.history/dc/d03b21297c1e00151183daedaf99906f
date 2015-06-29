@@ -1,0 +1,7 @@
+package jamder;
+
+public enum Operador {
+	SEQUENCIA(0), PARALELO(1), ESCOLHA(2);
+	
+	
+}

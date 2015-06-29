@@ -1,0 +1,33 @@
+import sm.No;
+import sm.SMTree;
+
+public class SM {
+
+	public static void main(String[] args) {
+
+
+		SMTree arvore = new SMTree(0);
+		No g0 = arvore.getRaiz();
+		
+		arvore.inserir_novo(0,1);
+		arvore.inserir_novo(0,2);
+		arvore.inserir_novo(2,22);
+		arvore.inserir_novo(2,23);
+		arvore.inserir_novo(1,11);
+		arvore.inserir_novo(1,12);
+		arvore.inserir_novo(1,13);
+		
+		No b = arvore.buscar_um_no(22);
+		
+		System.out.println("_______");
+		arvore.show(0,g0);
+		System.out.println("_______");
+		//System.out.println(b.getValor());
+		
+		//arvore.show(a);
+		//arvore.show(b);
+		//arvore.show(c);
+		
+	}
+
+}

@@ -1,0 +1,143 @@
+package CaseStudySanctionMechanism;
+
+import jamder.Environment;
+import jamder.Organization;
+import jamder.agents.ReflexAgent;
+import jamder.behavioural.Action;
+import jamder.norms.AtomicAction;
+import jamder.norms.AtomicActionType;
+import jamder.norms.Before;
+import jamder.norms.Between;
+import jamder.norms.IfConditional;
+import jamder.norms.Norm;
+import jamder.norms.NormAction;
+import jamder.norms.NormConstraint;
+import jamder.norms.NormResource;
+import jamder.norms.NormType;
+import jamder.norms.Operator;
+import jamder.roles.ReflexAgentRole;
+import jamder.structural.Property;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.Hashtable;
+
+public class WorldVacuumCleaner extends Environment {
+
+	public WorldVacuumCleaner(String name, String host, String port) {
+		super(name, host, port);
+
+		
+		Organization LaboratoryOrg=new LaboratoryOrg("LaboratoryOrg", this, null);
+		addOrganization("LaboratoryOrg", LaboratoryOrg);
+		
+		ManagerAgent gerente=new ManagerAgent("Gerente",this, cleanserOrg);
+		
+		
+		ReflexAgent vacuumCleaner=new VacuumCleaner("VacuumCleaner", this, null, gerente);
+		vacuumCleaner.setNormative(true);
+		//AgentRole your actions and norms.
+		
+		Calendar date1a=new GregorianCalendar(2014, GregorianCalendar.JANUARY, 29, 15, 8, 20);
+		Calendar date2b=new GregorianCalendar(2014, GregorianCalendar.JUNE, 29, 15, 9, 40);
+		NormConstraint cond=new Between(date1a, date2b);
+		Hashtable<String, NormConstraint> constraints=new Hashtable<String, NormConstraint>();
+		constraints.put("cond", cond);
+		
+		ReflexAgentRole role=new ReflexAgentRole("cleaner", cleanserOrg, vacuumCleaner);
+		int cont=0;
+		for (Action action : vacuumCleaner.getAllActions().values()) {
+			role.addAction(action.getName(), action);
+			NormResource nre= new NormResource(action);
+			NormAction noa= new AtomicAction(AtomicActionType.AtomicExecute, nre);
+			Norm no;
+			if (cont==0)
+				no=new Norm("N"+cont, NormType.OBLIGATION, role, cleanserOrg, noa, constraints);
+			else no=new Norm("N"+cont, NormType.PERMISSION, role, cleanserOrg, noa, constraints);
+			role.addRestrictNorm(no.getName(), no);
+			cont++;
+		}
+		vacuumCleaner.addAgentRole("Cleaner", role);
+		
+		
+//		ManagerAgent gerente=new ManagerAgent("Gerente",this, cleanserOrg);
+//		gerente.addAgent("VacuumCleaner", vacuumCleaner);
+//		vacuumCleaner.setManager(gerente);
+		
+		
+		NormResource nr= new NormResource(vacuumCleaner.getAction("LetSuck"));
+		NormAction na= new AtomicAction(AtomicActionType.AtomicExecute, nr);
+		
+		NormResource nr2= new NormResource(vacuumCleaner.getAction("LetSuck"));
+		NormAction na2= new AtomicAction(AtomicActionType.AtomicExecute, nr2);
+		
+		Calendar date1=new GregorianCalendar(2014, GregorianCalendar.JANUARY, 29, 15, 8, 20);
+		Calendar date2=new GregorianCalendar(2014, GregorianCalendar.APRIL, 14, 20, 5, 30);
+		NormConstraint condA=new Between(date1, date2);
+		
+		Property<Place> propertyplaceName=new Property<Place>();
+		propertyplaceName.setValue(place);
+		Property<Place> propertyplaceName2=new Property<Place>();
+		propertyplaceName2.setValue(new Place(new Room("roomB", true)));
+		NormConstraint condB=new IfConditional<Place>(Operator.EQUAL_TO, propertyplaceName, propertyplaceName2);
+		
+		Hashtable<String, NormConstraint> constraints1=new Hashtable<String, NormConstraint>();
+		constraints1.put("condA", condA);
+		constraints1.put("condB", condB);
+		Norm N1=new N1("N1", NormType.OBLIGATION, vacuumCleaner, cleanserOrg, na, constraints1);
+		//System.out.println(N1.isActive());
+		
+		Property<Place> propertyplaceName3=new Property<Place>();
+		propertyplaceName3.setValue(place);
+		Property<Place> propertyplaceName4=new Property<Place>();
+		propertyplaceName4.setValue(new Place(new Room("roomA", true)));
+		NormConstraint condE=new IfConditional<Place>(Operator.EQUAL_TO, propertyplaceName3, propertyplaceName4);
+		
+		Calendar dat1=new GregorianCalendar(2014, GregorianCalendar.JANUARY, 29, 0, 5, 20);
+		Calendar dat2=new GregorianCalendar(2014, GregorianCalendar.JUNE, 29, 17, 7, 59);
+		NormConstraint cond2A=new Between(dat1, dat2);
+		Hashtable<String, NormConstraint> constraints2=new Hashtable<String, NormConstraint>();
+		constraints2.put("condE", condE);
+		constraints2.put("cond2A", cond2A);
+		
+		Norm N2=new N2("N2", NormType.PROHIBITION, vacuumCleaner, cleanserOrg, na2, constraints2);
+		//System.out.println("Hum..."+N2.isActive());
+		
+		Hashtable<String, NormConstraint> constraints3=new Hashtable<String, NormConstraint>();
+		//constraints3.put("always", new Before(new GregorianCalendar()));
+		constraints3.put("cond2A", cond2A);
+		constraints3.put("condE", condE);
+		Norm N3=new N3("N3", NormType.OBLIGATION, vacuumCleaner, cleanserOrg, na, constraints3);
+		((N3)N3).setVacuumCleaner((VacuumCleaner)vacuumCleaner);
+		System.out.println("N3 teste: "+N3.isActive());
+		
+		
+		//San��es de N1
+		Hashtable<String, Norm> sanctionsRewardN1 = new Hashtable<String, Norm>();
+		sanctionsRewardN1.put(N3.getName(), N3);
+		N1.setSactionReward(sanctionsRewardN1);
+		
+		Norm N4=new N4("N4", NormType.PERMISSION, vacuumCleaner, cleanserOrg, na, constraints3);
+		((N4)N4).setVacuumCleaner((VacuumCleaner)vacuumCleaner);
+		
+		//San��es de N2
+		Hashtable<String, Norm> sanctionsRewardN2 = new Hashtable<String, Norm>();
+		sanctionsRewardN2.put(N4.getName(), N4);
+		N2.setSactionReward(sanctionsRewardN2);
+		
+		N1.apply();
+		//N2.apply();
+		
+		gerente.addAgent("VacuumCleaner", vacuumCleaner);
+		
+		
+		
+		addAgent("Gerente", gerente);
+		addAgent("VacuumCleaner", vacuumCleaner);
+	}
+	
+	public static void main(String[] args) {
+		new WorldVacuumCleaner("WorldVacuumCleaner","localhost", "8888");
+	}
+
+}

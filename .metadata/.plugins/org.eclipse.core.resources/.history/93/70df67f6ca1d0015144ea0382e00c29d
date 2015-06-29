@@ -1,0 +1,6 @@
+package jamder;
+
+public class Agent {
+	String name;
+	
+}

@@ -1,0 +1,42 @@
+package jamder;
+
+public class Norms {
+	
+	Actions action;
+	Norms sanction;
+	int sanction_cost;
+	
+	public Norms(Actions action, Norms sanction, int sanction_cost) {
+		super();
+		this.action = action;
+		this.sanction = sanction;
+		this.sanction_cost = sanction_cost;
+	}
+
+	public Actions getAction() {
+		return action;
+	}
+
+	public void setAction(Actions action) {
+		this.action = action;
+	}
+
+	public Norms getSanction() {
+		return sanction;
+	}
+
+	public void setSanction(Norms sanction) {
+		this.sanction = sanction;
+	}
+
+	public int getSanction_cost() {
+		return sanction_cost;
+	}
+
+	public void setSanction_cost(int sanction_cost) {
+		this.sanction_cost = sanction_cost;
+	}
+	
+	
+	
+}

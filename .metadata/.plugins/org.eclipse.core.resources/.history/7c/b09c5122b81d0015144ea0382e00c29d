@@ -1,0 +1,15 @@
+package CaseStudySanctionMechanism;
+
+import jamder.Environment;
+import jamder.Organization;
+import jamder.roles.ProactiveAgentRole;
+
+public class LaboratoryOrg extends Organization {
+
+	public LaboratoryOrg(String name, Environment environment,
+			ProactiveAgentRole agentRole) {
+		super(name, environment, agentRole);
+		// TODO Auto-generated constructor stub
+	}
+
+}

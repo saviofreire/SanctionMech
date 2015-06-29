@@ -1,0 +1,19 @@
+package CaseStudySanctionMechanism;
+
+import jamder.Environment;
+import jamder.Organization;
+import jamder.roles.ProactiveAgentRole;
+
+
+public class Lapaq extends Organization{
+
+	private static final long serialVersionUID = 1L;
+	
+	public Lapaq(String name, Environment environment,ProactiveAgentRole agentRole) {
+		
+		super(name, environment, agentRole);
+
+	}
+	
+	
+}

@@ -1,0 +1,18 @@
+package CaseStudySanctionMechanism;
+
+import jamder.Environment;
+import jamder.Organization;
+import jamder.roles.ProactiveAgentRole;
+
+
+public class Laboratory extends Organization{
+
+	private static final long serialVersionUID = 1L;
+	
+	public Laboratory(String name, Environment environment,ProactiveAgentRole agentRole) {
+		
+		super(name, environment, agentRole);
+		//addAction("a", null);
+	}
+	
+}

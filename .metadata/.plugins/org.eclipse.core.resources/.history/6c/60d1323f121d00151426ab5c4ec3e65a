@@ -1,0 +1,65 @@
+package sm;
+
+public class No {
+
+	
+	boolean generico = true;	//Se for um n� gen�rico (= false)
+	
+	No pai = null;											
+    No esquerda = null;  
+    No direita = null;  
+    int valor;  
+
+    public No(int valor) {
+        this.valor = valor;
+        this.generico = true;
+    }
+    
+    public No() {
+    	this.valor = -1;
+        this.generico = false;  
+    }
+
+	public boolean isGenerico() {
+		return generico;
+	}
+
+	public void setGenerico(boolean generico) {
+		this.generico = generico;
+	}
+
+	public No getPai() {
+		return pai;
+	}
+
+	public void setPai(No pai) {
+		this.pai = pai;
+	}
+
+	public No getEsquerda() {
+		return esquerda;
+	}
+
+	public void setEsquerda(No esquerda) {
+		this.esquerda = esquerda;
+	}
+
+	public No getDireita() {
+		return direita;
+	}
+
+	public void setDireita(No direita) {
+		this.direita = direita;
+	}
+
+	public int getValor() {
+		return valor;
+	}
+
+	public void setValor(int valor) {
+		this.valor = valor;
+	}
+    
+    
+    
+}

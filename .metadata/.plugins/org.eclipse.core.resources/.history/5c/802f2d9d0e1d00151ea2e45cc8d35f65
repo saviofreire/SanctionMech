@@ -1,0 +1,259 @@
+package sm;
+
+public class SMTree {
+
+	//Raiz da arvore - meta g0
+	No raiz;
+
+	//Construtor seta a raiz
+	public SMTree(int valor){
+		this.raiz = new No(valor); 
+	}
+
+	//inserir em um no um valor
+	public void inserir_novo(int local, int valor){
+		this.buscar_no_inserir(this.raiz, local, valor);
+	}
+	
+	//buscar um no com valor
+	public void buscar_um_no(int local){
+	
+		No no = buscar_no(this.raiz, local);
+		System.out.println(no.valor);
+		System.out.println("PAI: "+ no.pai.valor);
+	}
+	
+	
+	protected No buscar_no(No no,int local){
+		No buscado = null;
+		if(no.valor == local){
+			buscado = no;
+		}else 
+		{	
+			if(no.esquerda != null){
+				return buscar_no(no.esquerda, local);
+			}
+			if(no.direita != null){
+				return buscar_no(no.direita, local);
+			}
+		}	
+		return no;
+	}
+
+	protected void buscar_no_inserir(No no, int local, int valor){
+		if(no.valor == local){
+			this.inserir(no,local,valor);
+		}else 
+		{	
+			if(no.esquerda != null){
+				buscar_no_inserir(no.esquerda, local, valor);
+			}
+			if(no.direita != null){
+				buscar_no_inserir(no.direita, local, valor);
+			}
+		}		
+	}
+	
+	protected void inserir(No no, int local,  int valor) {
+
+
+
+		if(no.esquerda == null){
+
+			no.esquerda = new No(valor);
+			no.esquerda.pai = no;
+
+			if(no.valor == 3){
+				System.out.println(no.esquerda.valor);
+			}
+
+
+
+
+		}else if(no.direita == null){
+
+			no.direita = new No(valor);
+			no.direita.pai = no;
+
+		}else if(no.direita.generico == true){
+
+			No temp = no.direita;
+			No gr = new No();//Criacao do no generico
+			gr.pai = no;
+			gr.esquerda = temp;
+			gr.esquerda.pai = gr;
+			gr.direita = new No(valor);
+			gr.direita.pai = gr;
+			no.direita = gr;
+
+
+		}else if(no.direita.generico == false){
+
+			inserir(no.direita, local, valor);
+		}
+
+	}
+
+
+	public void show( int level, No no){
+
+
+
+		//System.out.print("\t\t");
+		System.out.print(no.valor);
+
+		System.out.print("\n");
+		level++;
+
+
+		if(no.esquerda != null){
+
+			System.out.print("(L"+level + "-E)");
+			show(level, no.esquerda);
+
+
+		}
+		if(no.direita != null){
+			System.out.print("(L"+level + "-D)");
+
+
+			show(level, no.direita);
+
+		}
+
+
+	}
+
+	public No getRaiz() {
+		return raiz;
+	}
+
+
+	/*
+    // ------------------ Addition of the node to the BST-------------------
+    protected BNode insertAB(BNode theRootNode, BNode myNewNode) {
+        if (theRootNode == null) {
+            theRootNode = myNewNode;
+            //checks if the username is smaller than 
+            //the root object, if smaller appends to the left
+        } else if (myNewNode.anyClass.surname.compareTo(
+                          theRootNode.anyClass.surname) < 0) {
+            theRootNode.leftBNode = insertAB(theRootNode.leftBNode, myNewNode);
+        } else {
+            // else if bigger appends to the right
+            theRootNode.rightBNode = 
+               insertAB(theRootNode.rightBNode, myNewNode);
+        }
+        return theRootNode;
+    }
+
+    public void insertBST(AnyClass anyClass) {
+        BNode anyClassBTNode = new BNode(anyClass);
+        //calls insert above
+        theBTRootNode = insertAB(theBTRootNode, anyClassBTNode);
+    }
+
+    // ------------------ InOrder traversal-------------------
+    protected void inorder(BNode theRootNode) {
+        if (theRootNode != null) {
+            inorder(theRootNode.leftBNode);
+            theRootNode.show();
+            inorder(theRootNode.rightBNode);
+        }
+    }
+
+    //calls the method to do in order
+    public void inorderBST() {
+        inorder(theBTRootNode);
+    }
+
+    // ----- Search for key name and  returns ref. 
+    //              to BNode or null if not found--------
+    protected BNode search(BNode theRootNode, String keyName) {
+        //if the root is null returns null
+        if (theRootNode == null) {
+            return null;
+        } else {
+            //checks if they are equal
+            if (keyName.compareTo(theRootNode.anyClass.surname) == 0) {
+                return theRootNode;
+            //checks id the key is smaller than the current
+            //record  if smaller traverses to the left
+            } else if (keyName.compareTo(theRootNode.anyClass.surname) < 0) {
+                return search(theRootNode.leftBNode, keyName);
+            } else {
+                // if bigger traverses to the left
+                return search(theRootNode.rightBNode, keyName);
+            }
+        }
+    }
+
+    //returns null if no result else returns 
+    //the AnyClass object matched with the keyName
+    public AnyClass searchBST(String keyName) {
+        BNode temp = search(theBTRootNode, keyName);
+        if (temp == null) {
+      //noresults found
+           return null;
+        } else {
+         //result found
+           return temp.anyClass;
+        }
+    }
+	 */
+	
+    private static void show2(int level, int maxlevel, No no){
+    	for(int i = 0;i <= maxlevel - level; i++){
+    		System.out.print("\t");
+    	}
+    	System.out.print(no.valor);
+    	System.out.print("\n");
+    	
+    	level++;
+    	
+    	for(int i = 0;i <= maxlevel - level; i++){
+    		System.out.print("\t");
+    	}    	
+    	
+    	System.out.print(no.esquerda.valor);
+    	
+    	for(int i = 0;i <= maxlevel - level; i++){
+    		System.out.print("\t");
+    	}
+    	
+    	System.out.print(no.direita.valor);
+    	
+
+    	
+    }
+	
+    public static void printNode(No raiz) {
+        int maxLevel = maxLevel(raiz);
+        int level = 0;
+        
+        System.out.println("MAX LEVEL:" + maxLevel);
+        
+        int floor = maxLevel - level;
+        int endgeLines = (int) Math.pow(2, (Math.max(floor - 1, 0)));
+        int firstSpaces = (int) Math.pow(2, (floor)) - 1;
+        int betweenSpaces = (int) Math.pow(2, (floor + 1)) - 1;
+        
+        show2(level, maxLevel, raiz);
+        
+    }
+    
+    private static int maxLevel(No no) {
+        if (no == null)
+            return 0;
+
+        return Math.max(maxLevel(no.esquerda), maxLevel(no.direita)) + 1;
+    }
+    
+
+    
+    private static void printWhitespaces(int count) {
+        for (int i = 0; i < count; i++)
+            System.out.print(" ");
+    }
+    
+}

@@ -1,0 +1,42 @@
+package jamder;
+
+public class Norms {
+	
+	Actions action;
+	int sanction_cost;
+	Agent agente;
+	boolean cumprida = false;
+	
+	public Norms(Agent agente, Actions action) {
+		super();
+		this.agente = agente;
+		this.action = action;	
+	}
+
+	public Actions getAction() {
+		return action;
+	}
+
+	public void setAction(Actions action) {
+		this.action = action;
+	}
+
+	public int getSanction_cost() {
+		return sanction_cost;
+	}
+
+	public void setSanction_cost(int sanction_cost) {
+		this.sanction_cost = sanction_cost;
+	}
+
+	public Agent getAgente() {
+		return agente;
+	}
+
+	public void setAgente(Agent agente) {
+		this.agente = agente;
+	}
+	
+	
+	
+}

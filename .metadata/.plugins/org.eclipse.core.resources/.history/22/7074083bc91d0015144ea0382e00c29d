@@ -1,0 +1,7 @@
+package CaseStudySanctionMechanism.actions;
+
+import jamder.norms.AtomicAction;
+
+public class WritePaper extends AtomicAction{
+
+}

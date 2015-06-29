@@ -1,0 +1,19 @@
+package CaseStudySanctionMechanism;
+
+import jamder.Environment;
+import jamder.Organization;
+import jamder.roles.ProactiveAgentRole;
+
+
+public class Conference extends Organization{
+
+	private static final long serialVersionUID = 1L;
+	
+	public Conference(String name, Environment environment,ProactiveAgentRole agentRole) {
+		
+		super(name, environment, agentRole);
+		//addAction("a", null);
+	}
+	
+	
+}

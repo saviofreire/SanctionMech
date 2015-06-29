@@ -1,0 +1,23 @@
+package jamder;
+
+import java.util.List;
+
+public class AgentRole {
+	String name;
+	List<Actions> actions;
+	
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<Actions> getActions() {
+		return actions;
+	}
+	public void setActions(List<Actions> actions) {
+		this.actions = actions;
+	}
+	
+	
+}

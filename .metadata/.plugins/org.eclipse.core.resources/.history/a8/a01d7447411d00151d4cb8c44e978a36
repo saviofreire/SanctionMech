@@ -1,0 +1,107 @@
+package CaseStudySanctionMechanism;
+
+import jamder.Environment;
+import jamder.Organization;
+import jamder.agents.GoalAgent;
+import jamder.behavioural.Action;
+import jamder.norms.AtomicAction;
+import jamder.norms.AtomicActionType;
+import jamder.norms.IfConditional;
+import jamder.norms.Norm;
+import jamder.norms.NormAction;
+import jamder.norms.NormConstraint;
+import jamder.norms.NormResource;
+import jamder.norms.NormType;
+import jamder.norms.Operator;
+import jamder.roles.AgentRole;
+import jamder.roles.ProactiveAgentRole;
+import jamder.structural.Property;
+
+import java.util.Hashtable;
+
+import CaseStudyIsrael.ManagerAgent;
+
+public class University extends Environment {
+
+	public ConferenceManagement(String name, String host, String port) {
+		super(name, host, port);
+		
+		//Organiza��o Conference
+		Organization Conference = new Conference ("Conference", this, null);
+		addOrganization("Conference", Conference);
+		
+		//Agentes e Pap�is de Agentes
+		
+		
+		GoalAgent UserAgent = new UserAgent("UserAgent",this, null);
+		ManagerAgent gerente=new ManagerAgent("Gerente",this, Conference);
+		gerente.addAgent("UserAgent", UserAgent);
+		UserAgent.setMonitor(gerente);
+		addAgent("Gerente", gerente);
+		Action ac=UserAgent.getAction("Submit Papers");
+		ac.setNormType(NormType.OBLIGATION);
+		
+		AgentRole role=new AgentRole("Paper", Conference, UserAgent);
+		role.addAction("Submit Papers", ac);
+		UserAgent.addAgentRole(role.getName(), role);
+		role.initialize();
+		ProactiveAgentRole Organizer = new Organizer("Organizer", Conference, UserAgent);
+		AgentRole Reviewer = new Reviewer("Reviewer", Conference, UserAgent);
+
+		AgentRole ConferenceChair = new ConferenceChair("ConferenceChair", Conference, UserAgent);
+		addAgent("UserAgent", UserAgent);
+		
+		//Classes
+		Paper paper = new Paper("Robert");
+		addObject("paper", paper);
+		
+		//Norma N1
+		NormResource resourceN1 = new NormResource(Organizer.getAction("submitPaper"));
+		//NormResource resourceN1 = new NormResource(Organizer.get("s"));
+		//UserAgent.get
+		NormAction actionN1 = new AtomicAction(AtomicActionType.AtomicExecute, resourceN1);
+		Norm N1 = new N1("N1", NormType.OBLIGATION, Organizer, Conference, actionN1 , null);
+		Conference.addContextNorm("N1", N1);
+		Organizer.addRestrictNorm("N1", N1);
+
+		//Norma N4
+		NormResource resourceN4 = new NormResource(Reviewer);
+		NormAction actionN4 = new AtomicAction(AtomicActionType.ATOMIC_CANCEL, resourceN4);
+		Norm N4 = new N4("N4",NormType.OBLIGATION, Reviewer, Conference, actionN4, null);
+		
+		//Norma N5
+		NormResource resourceN5 = new NormResource(paper);
+		NormAction actionN5 = new AtomicAction(AtomicActionType.ATOMIC_DELETE, resourceN5);
+		Norm N5 = new N5("N5",NormType.OBLIGATION, ConferenceChair, Conference, null, null); 
+
+		//Norma N3
+		NormResource resourceN3 = new NormResource(Reviewer.getAction("reviewPaper"));
+		NormAction actionN3 = new AtomicAction(AtomicActionType.AtomicExecute, resourceN3);
+		
+		Property<String> first_property = new Property<String>();
+		Property<String> second_property = new Property<String>();
+		first_property.setName(paper.getAuthor());
+		second_property.setName(Reviewer.getName());
+		
+		IfConditional<String> constraintN3 = new IfConditional<String>(Operator.EQUAL_TO, first_property, second_property);
+		Hashtable<String, NormConstraint> constraintsN3 = new Hashtable<String, NormConstraint>();
+		constraintsN3.put("contraintN3", constraintN3);
+		
+		Hashtable<String, Norm> sanctionsPunishmentN3 = new Hashtable<String, Norm>();
+		sanctionsPunishmentN3.put("N4", N4);
+		sanctionsPunishmentN3.put("N5", N5);
+		
+		Norm N3 = new N3("N3", NormType.PROHIBITION, Reviewer, Conference, actionN3, constraintsN3, sanctionsPunishmentN3);
+		Conference.addContextNorm("N3", N3);
+		Reviewer.addRestrictNorm("N3", N3);
+		
+		
+		
+	}
+	
+	public static void main(String args[]){
+		
+		ConferenceManagement teste = new ConferenceManagement("Conference Management","localhost", "8888");
+		  //System.out.println("Executou");
+	  	}
+}
