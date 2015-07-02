@@ -1,5 +1,6 @@
 package sm;
 
+//import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
 import jamder.Actions;
 import jamder.Norms;
 
@@ -134,8 +135,15 @@ public class SMTree {
 	protected void bs_no_sc(No no, Norms norma){
 
 		if(no.generico != false && no.norma.getAction().getCod() == norma.getAction().getCod()){
-			System.out.print(no.norma.getAction().getCod()+ "\t");
-			System.out.print("Cvmf = " + calcular_Cvmf(no) +"\n");
+		
+			Custos c = calcular_Cvmf(no);
+			
+			System.out.print("\t" + no.norma.getAction().getCod() + "\t");
+			
+			System.out.print( c.getCvi() +"\t\t");
+			System.out.print(c.getCvc() +"\t\t");
+			System.out.print( c.getCvg() +"\t\t");
+			System.out.print( c.getCvmf() +"\t\n");
 		}else 
 		{	
 			if(no.esquerda != null)
@@ -147,43 +155,42 @@ public class SMTree {
 		}	
 	}
 
-	protected int calcular_Cvmf(No no){
-		int Cvmf = 0;       //Custo de violçao da acao final
-		int Cvi = 0;        //Custo de violação individual
-		int Cvc = 0;        //Custo de violaçao coletiva	
-		int Cvg = 0;        //Custo de violaçao gerencial
+	protected Custos calcular_Cvmf(No no){
+		
+		Custos custo = new Custos();
 		
 		if(no.cumprido == false){
 			if(no.esquerda !=null || no.direita !=null){ 	//Verifica se o nó possui uma meta gerencial, que define sub-metas
 				//Cvi += -2;
-				Cvc += 0;
-				Cvg += -1;
+				custo.setCvc(0);
+				custo.setCvg(-1);
 			}
 			if(no.pai !=null){
 				if (no.pai.operador == Operador.PARALELO){ //meta organizada em paralelo
-	
-					Cvi += -2;
+					
+					custo.setCvi(-2);
+					custo.setCvg(0);
 					if ( no_irmao(no).cumprido == true) //Verifica se a meta irmã a esta foi cumprida
-						Cvc += -1;  
-					Cvg += 0;            
+						custo.setCvc(-1);
 				}
 				else if(no.pai.operador == Operador.ESCOLHA){ //metas em escolha
-					if( no_irmao(no).cumprido == false )  
-						Cvi += -2;
-					Cvc += 0;
-					Cvg += 0;
+					
+					custo.setCvc(0);
+					custo.setCvg(0);
+					if( no_irmao(no).cumprido == false )
+						custo.setCvi(-2);
 				}
 				else if(no.pai.operador == Operador.SEQUENCIA){//metas em sequencia
-					Cvi += -2;                  
+					
+					custo.setCvg(0);					
+					custo.setCvi(-2);
 					if( no_irmao(no).cumprido == true) //Verifica se a meta próxima a esta foi cumprida
-						Cvc += -1;
-					Cvg += 0;
+						custo.setCvc(-1);
 				}	    	
 			}
 		}
-		
-		Cvmf = (Cvi + Cvc + Cvg);
-		return Cvmf;
+		custo.setCvmf();
+		return custo;
 	}
 
 	protected No no_irmao(No no){
@@ -204,9 +211,12 @@ public class SMTree {
 
 			if(no.norma.getAction().getCod() == "g12"){
 				no.cumprido = false;
+				System.out.print("\t Executou: " + no.cumprido + "\t");
+                calcular_custos_das_sancoes(no.norma);
 				
 			}else{
 				no.cumprido = true;
+				System.out.println("\t Executou: " + no.cumprido + "\t");
 			}
 
 			try {
@@ -214,21 +224,25 @@ public class SMTree {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			System.out.println("\t Executou: " + no.cumprido);
+			
 
 		}else{
 			executar_metas(no.esquerda);
+			
 			if(no.esquerda.cumprido == true){
 				executar_metas(no.direita);
 			}
+			
 			if(no.esquerda.cumprido == true && no.direita.cumprido == true){
 				System.out.print("Executando meta " + no.norma.getAction().getCod());
 				no.cumprido = true;
-				System.out.println("\t Executou: " + no.cumprido);
+				System.out.print("\t Executou: " + no.cumprido+ "\t");
 			}else{
 				System.out.print("Executando meta " + no.norma.getAction().getCod());
 				no.cumprido = false;
-				System.out.println("\t Executou: " + no.cumprido);
+				System.out.print("\t Executou: " + no.cumprido+ "\t");
+                calcular_custos_das_sancoes(no.norma);
+				
 			}
 
 		}

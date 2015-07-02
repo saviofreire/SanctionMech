@@ -82,17 +82,15 @@ public class SM {
 		
 			arvore.buscar_um_no(ng2);
 		
-		System.out.println("\n\n____________ Execução das metas	_______________________________________________\n");
+		System.out.println("\n\nExecução das metas\n");
 		
-			//arvore.buscar_um_no(ng11);
+		System.out.println("________________________________________________________________________________________________________________________________");
+		System.out.print("META			 EXECUÇÃO			META	INDIVIDUAL	COLETIVO	GERENCIAL	TOTAL");
+		System.out.println("\n________________________________________________________________________________________________________________________________");
 			arvore.executar_metas(raiz);
+
 				
-		System.out.println("\n\n____________  CUSTOS    	________________________________________________\n");
-			
-			arvore.calcular_custos_das_sancoes(ng11);
-			arvore.calcular_custos_das_sancoes(ng12);
-			arvore.calcular_custos_das_sancoes(ng1);
-			arvore.calcular_custos_das_sancoes(ng0);
+
 	}
 
 }
