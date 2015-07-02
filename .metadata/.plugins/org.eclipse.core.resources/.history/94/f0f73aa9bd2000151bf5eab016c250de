@@ -1,0 +1,21 @@
+package sm;
+
+public class Custos {
+	int Cvmf;       //Custo de violçao da acao final
+	int Cvi;        //Custo de violação individual
+	int Cvc;        //Custo de violaçao coletiva	
+	int Cvg;        //Custo de violaçao gerencial
+	
+	
+	public Custos() {
+		super();
+		Cvmf = 0;
+		Cvi = 0;
+		Cvc = 0;
+		Cvg = 0;
+	}
+	
+
+	
+	
+}

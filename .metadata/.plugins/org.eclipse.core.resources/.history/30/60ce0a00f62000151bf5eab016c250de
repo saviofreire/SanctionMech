@@ -1,0 +1,8 @@
+
+ (i) Incluir um atributo que trate sobre as metas que estão no operador ESCOLHA. Lembre-se que o mecanismo deve perceber apenas a meta que foi realmente escolhida;
+
+(ii) Percebi que você implementou a escolha das metas que serão cumpridas ou não utilizando Threads. Poderíamos deixar mais genérica para que facilitasse a execução dos próximos estudos de caso;
+
+(iii) Comparei o algoritmo com o artigo que enviamos para o CLEI e não foi incluída a entidade Contrato;
+
+(iv) Analisando os resultados, seria interessante colocar o valor do custo coletivo e individual separados. Veja os resultados do mesmo estudo de caso que calculamos no artigo:
